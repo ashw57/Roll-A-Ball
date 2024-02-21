@@ -22,4 +22,13 @@ public class NewBehaviourScript : MonoBehaviour
         Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical);
         rb.AddForce(movement * speed);
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Pick Up")
+
+        { 
+            //Destroy the collided object
+            Destroy(other.gameObject);
+        }
+    }
 }
