@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour
@@ -7,6 +8,7 @@ public class NewBehaviourScript : MonoBehaviour
     public float speed = 1f;
     private Rigidbody rb;
     public int pickUpCount;
+    private Timer timer;
 
     // Start is called before the first frame update
     void Start()
@@ -16,10 +18,13 @@ public class NewBehaviourScript : MonoBehaviour
         pickUpCount = GameObject.FindGameObjectsWithTag("PickUp").Length;
         //Run the Check Pickups Function
         CheckPickUps();
+        //Get the timer object and start the timer 
+        timer = FindObjectOfType<Timer>();
+        timer.StartTimer();
       
     }
 
-    // Update is called once per frame
+   
     void FixedUpdate()
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
@@ -30,16 +35,7 @@ public class NewBehaviourScript : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Pick Up")
-
-        { 
-            //Destroy the collided object
-            Destroy(other.gameObject);
-            //Decrement the pick up count
-            pickUpCount--;
-            //Run the Check Pick Ups function
-            CheckPickUps();
-        }
+       
 
         
     }
@@ -48,7 +44,8 @@ public class NewBehaviourScript : MonoBehaviour
         print("Pick Ups Left:" + pickUpCount);
         if (pickUpCount == 0)
         {
-            print("Yay! You Won");
+            timer.StopTimer();
+            print("Yay! You Won. Your Time Was: " + timer.GetTime());
         }
     }
 }
