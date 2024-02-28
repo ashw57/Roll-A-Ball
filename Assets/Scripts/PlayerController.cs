@@ -35,7 +35,15 @@ public class NewBehaviourScript : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-       
+       if(other.tag == "Pick Up")
+        {
+            //destroy collided object
+            Destroy(other.gameObject);
+            //decrement pickup count
+            pickUpCount--;
+            //run check pickups function
+            CheckPickUps();
+        }
 
         
     }
