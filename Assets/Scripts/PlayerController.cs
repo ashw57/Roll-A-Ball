@@ -15,7 +15,7 @@ public class NewBehaviourScript : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         //Get the number of pick ups in our scene
-        pickUpCount = GameObject.FindGameObjectsWithTag("PickUp").Length;
+        pickUpCount = GameObject.FindGameObjectsWithTag("Pick Up").Length;
         //Run the Check Pickups Function
         CheckPickUps();
         //Get the timer object and start the timer 

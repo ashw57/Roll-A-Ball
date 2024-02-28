@@ -924,6 +924,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1039044776}
   - component: {fileID: 1039044775}
+  - component: {fileID: 1039044777}
   m_Layer: 0
   m_Name: Timer
   m_TagString: Untagged
@@ -959,6 +960,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1039044777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039044774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4245b696bedb77948b26203496e244a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTime: 0
 --- !u!1001 &1080852466
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1135,6 +1149,7 @@ GameObject:
   - component: {fileID: 1785485695}
   - component: {fileID: 1785485699}
   - component: {fileID: 1785485700}
+  - component: {fileID: 1785485701}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1269,6 +1284,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   pickUpCount: 4
+--- !u!114 &1785485701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785485694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cacd08aa6a16132478a7c5fc35bc67ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  pickUpCount: 0
 --- !u!1 &1911041569
 GameObject:
   m_ObjectHideFlags: 0
