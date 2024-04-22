@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     public int pickUpCount;
     private Timer timer;
     private bool gameOver = false;
+    GameObject resetPoint;
+    bool resetting = false;
+    Color originalColour;
 
 
     [Header("UI")]
@@ -29,9 +32,12 @@ public class PlayerController : MonoBehaviour
         pickUpCount = GameObject.FindGameObjectsWithTag("Pick Up").Length;
         //Run the Check Pickups Function
         CheckPickUps();
+        gameOverScreen.SetActive(false);
         //Get the timer object and start the timer 
         timer = FindObjectOfType<Timer>();
         timer.StartTimer();
+        resetPoint = GameObject.Find("Reset Point");
+        originalColour = GetComponent<Renderer>().material.color;
       
     }
 
@@ -45,7 +51,7 @@ public class PlayerController : MonoBehaviour
    
     void FixedUpdate()
     {
-        if (gameOver == true)
+        if (resetting)
             return;
 
         float moveHorizontal = Input.GetAxis("Horizontal");
@@ -64,11 +70,36 @@ public class PlayerController : MonoBehaviour
             pickUpCount--;
             //run check pickups function
             CheckPickUps();
-        }
-
-        
+        } 
     }
-   
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Respawn"))
+        {
+            StartCoroutine(ResetPlayer());
+        }
+    }
+
+    public IEnumerator ResetPlayer()
+    {
+        resetting = true;
+        GetComponent<Renderer>().material.color = Color.black;
+        rb.velocity = Vector3.zero;
+        Vector3 startPos = transform.position;
+        float resetSpeed = 2f;
+        var i = 0.0f;
+        var rate = 1.0f / resetSpeed;
+        while (i < 1.0f)
+        {
+            i += Time.deltaTime * rate;
+            transform.position = Vector3.Lerp(startPos, resetPoint.transform.position, i);
+            yield return null;
+        }
+        GetComponent<Renderer>().material.color = originalColour;
+        resetting = false;
+
+    }
     void CheckPickUps()
     {
         pickUpText.text = "Pick Ups Left:" + pickUpCount;
