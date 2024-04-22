@@ -11,22 +11,19 @@ public class PlayerController : MonoBehaviour
     public int pickUpCount;
     private Timer timer;
     private bool gameOver = false;
-   
+
 
     [Header("UI")]
+    public GameObject gameOverScreen;
     public TMP_Text pickUpText;
     public TMP_Text timerText;
     public TMP_Text winTimeText;
-    public GameObject winPanel;
-    public GameObject inGamePanel;
+   
 
     // Start is called before the first frame update
     void Start()
     {
-        //Turn off our in game panel
-        inGamePanel.SetActive(false);
-        //Turn off our win panel
-        winPanel.SetActive(false);
+       
         rb = GetComponent<Rigidbody>();
         //Get the number of pick ups in our scene
         pickUpCount = GameObject.FindGameObjectsWithTag("Pick Up").Length;
@@ -85,16 +82,14 @@ public class PlayerController : MonoBehaviour
     {
         //Set our game over to true
         gameOver = true;
-        //Turn off our in game panel
-        inGamePanel.SetActive(false);
-        //Turn on our win panel
-        winPanel.SetActive(true);
         pickUpText.color = Color.red;
         pickUpText.fontSize = 50;
+        //Turn on game over screen
+        gameOverScreen.SetActive(true);
         //Stop the timer
         timer.StopTimer();
         //Display our time to the win time text
-        winTimeText.text = "Your time was: " + timer.GetTime().ToString("F2");
+        winTimeText.text = "You Win! " + timer.GetTime().ToString("F2");
 
         //Stop the ball from moving
         rb.velocity = Vector3.zero;
