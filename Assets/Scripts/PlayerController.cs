@@ -7,6 +7,8 @@ using TMPro;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 1f;
+    [HideInInspector]
+    public float baseSpeed;
     private Rigidbody rb;
     public int pickUpCount;
     private Timer timer;
@@ -26,7 +28,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+        baseSpeed = speed;
         rb = GetComponent<Rigidbody>();
         //Get the number of pick ups in our scene
         pickUpCount = GameObject.FindGameObjectsWithTag("Pick Up").Length;
@@ -47,9 +49,7 @@ public class PlayerController : MonoBehaviour
 
     }
     
-
-   
-    void FixedUpdate()
+void FixedUpdate()
     {
         if (resetting)
             return;
@@ -71,6 +71,12 @@ public class PlayerController : MonoBehaviour
             //run check pickups function
             CheckPickUps();
         } 
+
+       if(other.gameObject.CompareTag("Powerup"))
+        {
+            other.GetComponent<Powerup>().UsePowerup();
+            other.gameObject.transform.position = Vector3.down * 1000;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
