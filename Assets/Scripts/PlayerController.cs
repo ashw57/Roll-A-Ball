@@ -6,7 +6,7 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 1f;
+    public float speed = 10f;
     [HideInInspector]
     public float baseSpeed;
     private Rigidbody rb;
@@ -15,7 +15,11 @@ public class PlayerController : MonoBehaviour
     private bool gameOver = false;
     GameObject resetPoint;
     bool resetting = false;
+    bool grounded = true;
     Color originalColour;
+
+    //Controllers
+    CameraController cameraController;
 
 
     [Header("UI")]
@@ -40,6 +44,7 @@ public class PlayerController : MonoBehaviour
         timer.StartTimer();
         resetPoint = GameObject.Find("Reset Point");
         originalColour = GetComponent<Renderer>().material.color;
+        cameraController = FindObjectOfType<CameraController>();
       
     }
 
@@ -49,17 +54,30 @@ public class PlayerController : MonoBehaviour
 
     }
     
-void FixedUpdate()
+     void FixedUpdate()
     {
-        if (resetting)
+        if(resetting)
             return;
 
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        if(grounded)
+        {
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            float moveVertical = Input.GetAxis("Vertical");
+            Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+            rb.AddForce(movement * speed);
 
-        Vector3 movement = new Vector3(moveHorizontal, 0, moveVertical);
-        rb.AddForce(movement * speed);
+            if(cameraController.cameraStyle == CameraStyle.Free)
+            {
+                //Rotates the player to the direction of the camera
+                Vector3 eulerAngles = Camera.main.transform.eulerAngles;
+                transform.eulerAngles = eulerAngles;
+                //translates the input vectors into coordinates
+                movement = transform.TransformDirection(movement);
+            }
+        }
+           
     }
+
     private void OnTriggerEnter(Collider other)
     {
        if(other.tag == "Pick Up")
@@ -74,7 +92,7 @@ void FixedUpdate()
 
        if(other.gameObject.CompareTag("Powerup"))
         {
-            other.GetComponent<Powerup>().UsePowerup();
+            other.GetComponent<Powerups>().UsePowerup();
             other.gameObject.transform.position = Vector3.down * 1000;
         }
     }
@@ -85,6 +103,18 @@ void FixedUpdate()
         {
             StartCoroutine(ResetPlayer());
         }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider.CompareTag("Ground"))
+            grounded = true;
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.CompareTag("Ground"))
+            grounded = false;
     }
 
     public IEnumerator ResetPlayer()
@@ -106,6 +136,7 @@ void FixedUpdate()
         resetting = false;
 
     }
+   
     void CheckPickUps()
     {
         pickUpText.text = "Pick Ups Left:" + pickUpCount;
@@ -133,11 +164,6 @@ void FixedUpdate()
         rb.angularVelocity = Vector3.zero;
     }
 
-    //Temporary - Remove when doing A2 modules
-    public void RestartGame()
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-    }
 
     public void QuitGame()
     {
