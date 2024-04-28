@@ -16,24 +16,24 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        //The offset from the player
-        offset = transform.position - player.transform.position;
         //The offset of the pivot from the player
         pivotOffset = pivot.position - player.transform.position;
+        //The offset from the player
+        offset = transform.position - player.transform.position;  
     }
 
     
     void LateUpdate()
     {
         //If we are using the fixed camera mode
-        if (cameraStyle == CameraStyle.Fixed)
+        if(cameraStyle == CameraStyle.Fixed)
         {
             //Set the camera position to be the players position + the offset
             transform.position = player.transform.position + offset;
         }
 
         //If we are using the free camera mode
-        if (cameraStyle == CameraStyle.Free)
+        if(cameraStyle == CameraStyle.Free)
         {
             //Set the cameras position to be the players position plus the offset
             pivot.transform.position = player.transform.position + pivotOffset;
