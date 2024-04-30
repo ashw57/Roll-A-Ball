@@ -7,6 +7,8 @@ TagManager:
   - Pick Up
   - Powerup
   - Ground
+  - Wall
+  - Pickup
   layers:
   - Default
   - TransparentFX

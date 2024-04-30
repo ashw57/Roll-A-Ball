@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     //Controllers
     CameraController cameraController;
+    SoundController soundController;
 
 
     [Header("UI")]
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour
         resetPoint = GameObject.Find("Reset Point");
         originalColour = GetComponent<Renderer>().material.color;
         cameraController = FindObjectOfType<CameraController>();
+        soundController = FindObjectOfType<SoundController>();
       
     }
 
@@ -88,6 +90,7 @@ public class PlayerController : MonoBehaviour
             pickUpCount--;
             //run check pickups function
             CheckPickUps();
+            soundController.PlayPickupSound();
         } 
 
        if(other.gameObject.CompareTag("Powerup"))
@@ -97,11 +100,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.CompareTag("Respawn"))
         {
             StartCoroutine(ResetPlayer());
+        }
+    else if(collision.gameObject.CompareTag("Wall"))
+        {
+            soundController.PlayCollisionSound(collision.gameObject);
         }
     }
 
@@ -162,6 +170,9 @@ public class PlayerController : MonoBehaviour
         //Stop the ball from moving
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+
+        //Play audio when level completed
+        soundController.PlayWinSound();
     }
 
 
