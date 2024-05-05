@@ -23,6 +23,18 @@ public class SceneController : MonoBehaviour
         SceneManager.LoadScene("Title");
     }
 
+    //Load Level 1 scen.
+    public void LoadlevelScene()
+    {
+        SceneManager.LoadScene("Level 1");
+    }
+
+    public void LoadLevelScene()
+    {
+        SceneManager.LoadScene("Level 2");
+    }
+
+
     //Gets our active scenes name
     public string GetSceneName()
     {

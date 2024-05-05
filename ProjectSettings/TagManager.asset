@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - Wall
   - Pickup
+  - Floor
   layers:
   - Default
   - TransparentFX

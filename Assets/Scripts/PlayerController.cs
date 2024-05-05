@@ -75,6 +75,8 @@ public class PlayerController : MonoBehaviour
                 transform.eulerAngles = eulerAngles;
                 //translates the input vectors into coordinates
                 movement = transform.TransformDirection(movement);
+                //Horizontal mouse movement
+                
             }
         }
            
