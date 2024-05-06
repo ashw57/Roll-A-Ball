@@ -86,6 +86,8 @@ public class PlayerController : MonoBehaviour
     {
        if(other.tag == "Pick Up")
         {
+            //Particles on Pickups
+            other.GetComponent<Particles>().CreateParticles();
             //destroy collided object
             Destroy(other.gameObject);
             //decrement pickup count
